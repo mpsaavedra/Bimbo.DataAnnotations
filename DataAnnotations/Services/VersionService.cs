@@ -1,5 +1,5 @@
 ﻿//
-// IAggregateRoot
+// VersionService
 //
 // Author:
 //       Michel Perez Saavedra <michel.perez.saavedra@gmail.com>
@@ -26,40 +26,33 @@
 //
 //
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Bimbo.Exceptions;
 
-using Bimbo.Events;
-
-namespace Bimbo.Domain.SeedWork
+namespace Bimbo.Services
 {
+    /// <inheritdoc/>
     /// <summary>
-    /// Aggregate root.
+    /// Version service.
     /// </summary>
-    public interface IAggregateRoot
+    public class VersionService : IVersionService
     {
+        ///  <inheritdoc/>
         /// <summary>
-        /// Gets the identifier.
+        /// Gets the next version.
         /// </summary>
-        /// <value>The identifier.</value>
-        Guid Id { get; }
+        /// <returns>The next version.</returns>
+        /// <param name="aggregateRootId">Aggregate root identifier.</param>
+        /// <param name="currentVersion">Current version.</param>
+        /// <param name="expectedVersion">Expected version.</param>
+        /// <exception cref="T:Bimbo.Exceptions.ConcurrencyException"></exception>
+        public int GetNextVersion(Guid aggregateRootId, int currentVersion, int? expectedVersion)
+        {
+            if (expectedVersion.HasValue && expectedVersion.Value > 0 && expectedVersion.Value != currentVersion)
+            {
+                throw new ConcurrencyException(aggregateRootId, expectedVersion.Value, currentVersion);
+            }
 
-        /// <summary>
-        /// Gets the version.
-        /// </summary>
-        /// <value>The version.</value>
-        int Version { get; }
-
-        /// <summary>
-        /// Gets the events.
-        /// </summary>
-        /// <value>The events.</value>
-        ReadOnlyCollection<IDomainEvent> Events { get; }
-
-        /// <summary>
-        /// Loads the DomainEvents from historical data.
-        /// </summary>
-        /// <param name="events">Events.</param>
-        void LoadHistorical(IEnumerable<IDomainEvent> events);
+            return currentVersion + 1;
+        }
     }
 }

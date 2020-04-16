@@ -28,6 +28,9 @@
 using System;
 namespace Bimbo.Domain.SeedWork
 {
+    /// <summary>
+    /// Base Entity class to enhiret from in the system
+    /// </summary>
     public class Entity : IEntity
     {
         protected Entity()

@@ -1,5 +1,5 @@
 ﻿//
-// IAggregateRoot
+// IVersionService
 //
 // Author:
 //       Michel Perez Saavedra <michel.perez.saavedra@gmail.com>
@@ -26,40 +26,20 @@
 //
 //
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-using Bimbo.Events;
-
-namespace Bimbo.Domain.SeedWork
+namespace Bimbo.Services
 {
     /// <summary>
-    /// Aggregate root.
+    /// Version service that returns the next version of and aggregator root id
     /// </summary>
-    public interface IAggregateRoot
+    public interface IVersionService
     {
         /// <summary>
-        /// Gets the identifier.
+        /// Gets the next version.
         /// </summary>
-        /// <value>The identifier.</value>
-        Guid Id { get; }
-
-        /// <summary>
-        /// Gets the version.
-        /// </summary>
-        /// <value>The version.</value>
-        int Version { get; }
-
-        /// <summary>
-        /// Gets the events.
-        /// </summary>
-        /// <value>The events.</value>
-        ReadOnlyCollection<IDomainEvent> Events { get; }
-
-        /// <summary>
-        /// Loads the DomainEvents from historical data.
-        /// </summary>
-        /// <param name="events">Events.</param>
-        void LoadHistorical(IEnumerable<IDomainEvent> events);
+        /// <param name="aggregateRootId">The aggregate root identifier.</param>
+        /// <param name="currentVersion">The current version.</param>
+        /// <param name="expectedVersion">The expected version.</param>
+        /// <returns></returns>
+        int GetNextVersion(Guid aggregateRootId, int currentVersion, int? expectedVersion);
     }
 }

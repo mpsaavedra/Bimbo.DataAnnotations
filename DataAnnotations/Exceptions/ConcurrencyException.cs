@@ -1,5 +1,5 @@
 ﻿//
-// IAggregateRoot
+// ConcurrencyException
 //
 // Author:
 //       Michel Perez Saavedra <michel.perez.saavedra@gmail.com>
@@ -26,40 +26,21 @@
 //
 //
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-using Bimbo.Events;
-
-namespace Bimbo.Domain.SeedWork
+namespace Bimbo.Exceptions
 {
-    /// <summary>
-    /// Aggregate root.
-    /// </summary>
-    public interface IAggregateRoot
+    public class ConcurrencyException : Exception
     {
-        /// <summary>
-        /// Gets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        Guid Id { get; }
+        public ConcurrencyException(Guid aggregateRootId, int expectedVersion, int actualVersion)
+            : base(BuildErrorMessage(aggregateRootId, expectedVersion, actualVersion))
+        {
+        }
 
-        /// <summary>
-        /// Gets the version.
-        /// </summary>
-        /// <value>The version.</value>
-        int Version { get; }
-
-        /// <summary>
-        /// Gets the events.
-        /// </summary>
-        /// <value>The events.</value>
-        ReadOnlyCollection<IDomainEvent> Events { get; }
-
-        /// <summary>
-        /// Loads the DomainEvents from historical data.
-        /// </summary>
-        /// <param name="events">Events.</param>
-        void LoadHistorical(IEnumerable<IDomainEvent> events);
+        private static string BuildErrorMessage(Guid aggregateRootId, int expectedVersion, int actualVersion)
+        {
+            return "Concurrency Exception" +
+                   $" | AggregateRootId: {aggregateRootId.ToString()}" +
+                   $" | Expected version: {expectedVersion}" +
+                   $" | Actual version: {actualVersion}";
+        }
     }
 }
