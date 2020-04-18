@@ -4,6 +4,10 @@
 
 This package contains all DataAnnotations and SeedWork used in the the Bimbo project. It has been designed and implemented as a simpleway to reduce the amount of rewritten code and increase the amount of shared code.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/j1bk46559rmcscgf?svg=true)](https://ci.appveyor.com/project/mpsaavedra/bimbo-dataannotations)
+[![Build status](https://ci.appveyor.com/api/projects/status/j1bk46559rmcscgf/branch/master?svg=true)](https://ci.appveyor.com/project/mpsaavedra/bimbo-dataannotations/branch/master)
+
+
 ## Author(s)
 
 - [Michel Pérez Saavedra](michel.perez.saavedra@gmail.com)

@@ -1,0 +1,9 @@
+version: 0.1.{build}-alpha
+image: Ubuntu1804
+before_build:
+- sh: >-
+    dotnet restore
+    dotnet build
+build:
+  project: DataAnnotations
+  verbosity: minimal
